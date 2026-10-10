@@ -1,0 +1,32 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "selected_finding_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Selected Finding Id"
+    },
+    "requires_human": {
+      "title": "Requires Human",
+      "type": "boolean"
+    },
+    "rationale": {
+      "title": "Rationale",
+      "type": "string"
+    }
+  },
+  "required": [
+    "selected_finding_id",
+    "requires_human",
+    "rationale"
+  ],
+  "title": "ResolutionAdvice",
+  "type": "object"
+}

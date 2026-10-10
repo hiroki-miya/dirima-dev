@@ -1,0 +1,14 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "summary": {
+      "title": "Summary",
+      "type": "string"
+    }
+  },
+  "required": [
+    "summary"
+  ],
+  "title": "ReceiptSummary",
+  "type": "object"
+}

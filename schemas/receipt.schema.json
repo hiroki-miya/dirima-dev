@@ -1,0 +1,69 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "succeeded",
+        "failed",
+        "cancelled"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "summary": {
+      "title": "Summary",
+      "type": "string"
+    },
+    "artifacts": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Artifacts",
+      "type": "array"
+    },
+    "reported_findings": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Reported Findings",
+      "type": "array"
+    },
+    "reported_verifications": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Reported Verifications",
+      "type": "array"
+    },
+    "reported_risks": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Reported Risks",
+      "type": "array"
+    },
+    "unresolved": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Unresolved",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "status",
+    "summary"
+  ],
+  "title": "AgentCompletionReceipt",
+  "type": "object"
+}

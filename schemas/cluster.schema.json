@@ -1,0 +1,28 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "equivalent": {
+      "title": "Equivalent",
+      "type": "boolean"
+    },
+    "reason": {
+      "title": "Reason",
+      "type": "string"
+    },
+    "finding_ids": {
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Finding Ids",
+      "type": "array"
+    }
+  },
+  "required": [
+    "equivalent",
+    "reason",
+    "finding_ids"
+  ],
+  "title": "ClusterClassification",
+  "type": "object"
+}

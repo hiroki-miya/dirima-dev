@@ -1,0 +1,30 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "level": {
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ],
+      "title": "Level",
+      "type": "string"
+    },
+    "irreversible": {
+      "title": "Irreversible",
+      "type": "boolean"
+    },
+    "reason": {
+      "title": "Reason",
+      "type": "string"
+    }
+  },
+  "required": [
+    "level",
+    "irreversible",
+    "reason"
+  ],
+  "title": "RiskAssessment",
+  "type": "object"
+}

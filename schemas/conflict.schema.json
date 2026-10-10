@@ -1,0 +1,35 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "conflict": {
+      "title": "Conflict",
+      "type": "boolean"
+    },
+    "reason": {
+      "title": "Reason",
+      "type": "string"
+    },
+    "finding_ids": {
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Finding Ids",
+      "type": "array"
+    },
+    "conflict_type": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Conflict Type",
+      "type": "string"
+    }
+  },
+  "required": [
+    "conflict",
+    "reason",
+    "finding_ids",
+    "conflict_type"
+  ],
+  "title": "ConflictClassification",
+  "type": "object"
+}

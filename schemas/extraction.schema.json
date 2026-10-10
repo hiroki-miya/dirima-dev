@@ -1,0 +1,93 @@
+{
+  "$defs": {
+    "ExtractedFinding": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "default": "OBSERVATION",
+          "maxLength": 50,
+          "minLength": 1,
+          "title": "Kind",
+          "type": "string"
+        },
+        "subject": {
+          "maxLength": 250,
+          "minLength": 1,
+          "title": "Subject",
+          "type": "string"
+        },
+        "claim": {
+          "minLength": 1,
+          "title": "Claim",
+          "type": "string"
+        },
+        "severity": {
+          "default": "LOW",
+          "enum": [
+            "LOW",
+            "MEDIUM",
+            "HIGH",
+            "CRITICAL"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "subject",
+        "claim"
+      ],
+      "title": "ExtractedFinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/ExtractedFinding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "risks": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Risks",
+      "type": "array"
+    },
+    "unresolved": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Unresolved",
+      "type": "array"
+    },
+    "constraint_violations": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Constraint Violations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "findings",
+    "risks",
+    "unresolved",
+    "constraint_violations"
+  ],
+  "title": "Extraction",
+  "type": "object"
+}

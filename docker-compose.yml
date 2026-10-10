@@ -1,0 +1,71 @@
+services:
+  db:
+    image: postgres:18.6
+    environment:
+      POSTGRES_DB: dirima
+      POSTGRES_USER: dirima
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+    volumes: ["postgres:/var/lib/postgresql"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dirima -d dirima"]
+      interval: 5s
+      retries: 10
+  migrate:
+    build: ./backend
+    command: ["alembic", "upgrade", "head"]
+    environment: &backend_env
+      DIRIMA_DB_HOST: db
+      DIRIMA_DB_NAME: dirima
+      DIRIMA_DB_USER: dirima
+      DIRIMA_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DIRIMA_AUTH_MODE: token
+      DIRIMA_TOKEN: ${DIRIMA_TOKEN:?set DIRIMA_TOKEN}
+      DIRIMA_WORKSPACE_ID: ${DIRIMA_WORKSPACE_ID:?set DIRIMA_WORKSPACE_ID}
+      DIRIMA_ARTIFACT_DIR: /data/artifacts
+      DIRIMA_HOST: 0.0.0.0
+      DIRIMA_MODEL_BASE_URL: ${DIRIMA_MODEL_BASE_URL:-}
+      DIRIMA_MODEL_API_KEY: ${DIRIMA_MODEL_API_KEY:-}
+      DIRIMA_MODEL_PROVIDER: ${DIRIMA_MODEL_PROVIDER:-compatible}
+      DIRIMA_MODEL_EXTRACTOR: ${DIRIMA_MODEL_EXTRACTOR:-}
+      DIRIMA_MODEL_CLUSTER: ${DIRIMA_MODEL_CLUSTER:-}
+      DIRIMA_MODEL_CONFLICT_DETECTOR: ${DIRIMA_MODEL_CONFLICT_DETECTOR:-}
+      DIRIMA_MODEL_RESOLVER: ${DIRIMA_MODEL_RESOLVER:-}
+      DIRIMA_MODEL_RISK_CLASSIFIER: ${DIRIMA_MODEL_RISK_CLASSIFIER:-}
+      DIRIMA_MODEL_RECEIPT_GENERATOR: ${DIRIMA_MODEL_RECEIPT_GENERATOR:-}
+      DIRIMA_EXTRACTION_CHARS: ${DIRIMA_EXTRACTION_CHARS:-24000}
+    depends_on:
+      db: {condition: service_healthy}
+  backend:
+    build: ./backend
+    environment: *backend_env
+    volumes: ["artifacts:/data/artifacts"]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/readyz')"]
+      interval: 5s
+      retries: 10
+    ports: ["127.0.0.1:8000:8000"]
+  worker:
+    build: ./backend
+    command: ["dirima", "worker"]
+    environment: *backend_env
+    volumes: ["artifacts:/data/artifacts"]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://backend:8000/workerz')"]
+      interval: 5s
+      retries: 10
+  frontend:
+    build: ./frontend
+    depends_on:
+      backend: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/"]
+      interval: 5s
+      retries: 10
+    ports: ["127.0.0.1:5173:80"]
+volumes:
+  postgres:
+  artifacts:

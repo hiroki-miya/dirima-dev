@@ -1,0 +1,145 @@
+{
+  "$defs": {
+    "Source": {
+      "properties": {
+        "adapter": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Adapter",
+          "type": "string"
+        },
+        "runtime": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Runtime",
+          "type": "string"
+        },
+        "external_run_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "External Run Id",
+          "type": "string"
+        },
+        "external_event_id": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "External Event Id"
+        }
+      },
+      "required": [
+        "adapter",
+        "runtime",
+        "external_run_id"
+      ],
+      "title": "Source",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "event_id": {
+      "format": "uuid",
+      "title": "Event Id",
+      "type": "string"
+    },
+    "workspace_id": {
+      "format": "uuid",
+      "title": "Workspace Id",
+      "type": "string"
+    },
+    "project_id": {
+      "format": "uuid",
+      "title": "Project Id",
+      "type": "string"
+    },
+    "task_id": {
+      "format": "uuid",
+      "title": "Task Id",
+      "type": "string"
+    },
+    "run_id": {
+      "format": "uuid",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "source": {
+      "$ref": "#/$defs/Source"
+    },
+    "type": {
+      "enum": [
+        "run.created",
+        "run.started",
+        "run.status_changed",
+        "message.completed",
+        "tool.called",
+        "tool.completed",
+        "tool.failed",
+        "artifact.created",
+        "verification.reported",
+        "run.completed",
+        "run.failed"
+      ],
+      "title": "Type",
+      "type": "string"
+    },
+    "occurred_at": {
+      "format": "date-time",
+      "title": "Occurred At",
+      "type": "string"
+    },
+    "external_sequence": {
+      "anyOf": [
+        {
+          "maximum": 2147483647,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "External Sequence"
+    },
+    "idempotency_key": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Idempotency Key",
+      "type": "string"
+    },
+    "payload": {
+      "additionalProperties": true,
+      "title": "Payload",
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "event_id",
+    "workspace_id",
+    "project_id",
+    "task_id",
+    "run_id",
+    "source",
+    "type",
+    "occurred_at",
+    "idempotency_key",
+    "payload"
+  ],
+  "title": "EventEnvelope",
+  "type": "object"
+}

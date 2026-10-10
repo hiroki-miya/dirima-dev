@@ -1,0 +1,40 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "command": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Command",
+      "type": "array"
+    },
+    "exit_code": {
+      "title": "Exit Code",
+      "type": "integer"
+    },
+    "stdout": {
+      "title": "Stdout",
+      "type": "string"
+    },
+    "stderr": {
+      "title": "Stderr",
+      "type": "string"
+    },
+    "observer": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Observer",
+      "type": "string"
+    }
+  },
+  "required": [
+    "command",
+    "exit_code",
+    "stdout",
+    "stderr",
+    "observer"
+  ],
+  "title": "CommandResult",
+  "type": "object"
+}
